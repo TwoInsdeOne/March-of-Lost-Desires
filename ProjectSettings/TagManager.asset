@@ -44,3 +44,9 @@ TagManager:
   - name: Crystal
     uniqueID: 2853011695
     locked: 0
+  - name: Player
+    uniqueID: 1078378475
+    locked: 0
+  - name: VFX
+    uniqueID: 1008903791
+    locked: 0
