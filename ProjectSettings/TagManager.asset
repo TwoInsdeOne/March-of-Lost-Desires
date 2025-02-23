@@ -6,6 +6,7 @@ TagManager:
   tags:
   - desire flower
   - reality gate
+  - blast
   layers:
   - Default
   - TransparentFX
@@ -48,6 +49,9 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 1078378475
+    locked: 0
+  - name: foreground
+    uniqueID: 3817324473
     locked: 0
   - name: VFX
     uniqueID: 1008903791

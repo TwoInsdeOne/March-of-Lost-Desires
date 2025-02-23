@@ -10,18 +10,19 @@ public class PlayerMovement : MonoBehaviour
     public Animator ani;
     public SpriteRenderer sr;
     public float speed;
+    public Vector2 direction;
     // Start is called before the first frame update
     void Start()
     {
         playerControls = new PlayerControls();
-        playerControls.Enable();
+        playerControls.Movements.Enable();
         
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        Vector2 direction = playerControls.Movements.Move.ReadValue<Vector2>();
+        direction = playerControls.Movements.Move.ReadValue<Vector2>();
         rb.AddForce(direction*speed, ForceMode2D.Impulse);
         if(direction.x < 0)
         {
@@ -44,5 +45,9 @@ public class PlayerMovement : MonoBehaviour
         {
             ani.SetInteger("move", 3);
         }
+    }
+    public Vector2 GetDirection()
+    {
+        return direction;
     }
 }

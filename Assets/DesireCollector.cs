@@ -7,7 +7,7 @@ public class Desire
 {
     public string content;
     public int id;
-    public bool realised;
+    public bool realized;
 }
 
 public class DesireCollector : MonoBehaviour
@@ -25,23 +25,26 @@ public class DesireCollector : MonoBehaviour
         if (collision.tag == "desire flower")
         {
             int id = collision.GetComponent<DesireFlower>().id;
-            if (id_djs.ContainsKey(id))
+            if (IsDesireRealized(id))
             {
                 return;
+            } else
+            {
+                Desire desire = new Desire();
+                desire.content = collision.GetComponent<DesireFlower>().content;
+                desire.id = id;
+                desireFlowers.Add(desire);
+
+                DistanceJoint2D dj = gameObject.AddComponent<DistanceJoint2D>();
+                dj.connectedBody = collision.GetComponent<Rigidbody2D>();
+                dj.enableCollision = false;
+                dj.distance = UnityEngine.Random.Range(1.0f, 2.0f);
+
+                Debug.Log(desire.id);
+                Debug.Log(dj);
+                id_djs.Add(desire.id, dj);
             }
-            Desire desire = new Desire();
-            desire.content = collision.GetComponent<DesireFlower>().content;
-            desire.id = id;
-            desireFlowers.Add(desire);
-
-            DistanceJoint2D dj = gameObject.AddComponent<DistanceJoint2D>();
-            dj.connectedBody = collision.GetComponent<Rigidbody2D>();
-            dj.enableCollision = false;
-            dj.distance = UnityEngine.Random.Range(1.0f, 2.0f);
-
-            Debug.Log(desire.id);
-            Debug.Log(dj);
-            id_djs.Add(desire.id, dj);
+            
         }
     }
     public void FindDesire(int id)
@@ -50,7 +53,7 @@ public class DesireCollector : MonoBehaviour
         {
             if (desireFlowers[i].id == id)
             {
-                desireFlowers[i].realised = true;
+                desireFlowers[i].realized = true;
                 return;
             }
         }
@@ -61,5 +64,16 @@ public class DesireCollector : MonoBehaviour
         DistanceJoint2D temp_dj;
         bool success = id_djs.Remove(id, out temp_dj);
         Destroy(temp_dj);
+    }
+    public bool IsDesireRealized(int id)
+    {
+        for (int i = 0; i < desireFlowers.Count; i++)
+        {
+            if (desireFlowers[i].id == id)
+            {
+                return desireFlowers[i].realized == true;
+            }
+        }
+        return false;
     }
 }
